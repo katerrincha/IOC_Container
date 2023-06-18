@@ -1,5 +1,3 @@
-#ifndef IOCCONTAINER_H
-#define IOCCONTAINER_H
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -9,7 +7,12 @@ using namespace std;
 
 class IOCContainer
 {
-    static int s_nextTypeId;
+    static int s_nextTypeId; //Объявление статической переменной s_nextTypeId,
+                             //которая будет использоваться для генерации уникальных идентификаторов типов в контейнере
+
+//Определение шаблонной функции GetTypeID, которая принимает тип T в качестве параметра и возвращает уникальный идентификатор типа.
+//Эта функция использует статическую локальную переменную typeId, которая инкрементируется при каждом вызове
+//и хранит уникальный идентификатор для каждого типа.
     template<typename T>
     static int GetTypeID()
     {
@@ -20,8 +23,8 @@ class IOCContainer
 public:
     //Создание typeid для типа
     /*
-     * В предлагаемой реализации контейнера IOC  есть статическая целочисленная
-     * переменная, указывающая идентификатор следующего типа, который будет выделен,
+     * В предлагаемой реализации контейнера IOC  есть статическая целочисленная переменная,
+     * указывающая идентификатор следующего типа, который будет выделен,
      * и экземпляр статической локальной переменной для каждого типа,
      * доступ к которому можно получить, вызвав метод GetTypeID.
     */
@@ -44,22 +47,26 @@ public:
         virtual ~FactoryRoot() {}
     };
 
-
+//Объявление контейнера m_factories, который будет использоваться для хранения зарегистрированных фабрик.
     std::map<int, std::shared_ptr<FactoryRoot>> m_factories;
 
     //Получить экземпляр объекта
     template<typename T>
     class CFactory : public FactoryRoot
     {
+//Объявление переменной m_functor типа function, которая представляет функциональный объект,
+//способный создавать и возвращать объект типа T. Этот объект будет храниться внутри фабрики.
         std::function<std::shared_ptr<T>()> m_functor;
 
     public:
         ~CFactory() {}
-
+//Конструктор, который принимает функциональный объект functor в качестве параметра
+//и инициализирует переменную m_functor с переданным значением.
         CFactory(std::function<std::shared_ptr<T>()> functor)
             : m_functor(functor)
         {}
-
+//Метод GetObject(), который вызывает функциональный объект m_functor и возвращает результат
+//в виде совместно используемого указателя. Этот метод будет использоваться для получения объекта типа T из фабрики.
         std::shared_ptr<T> GetObject()
         {
             return m_functor();
@@ -122,4 +129,3 @@ public:
         RegisterInstance<TInterface>(std::make_shared<TConcrete>(GetObject<TArguments>()...));
     }
 };
-#endif // IOCCONTAINER_H

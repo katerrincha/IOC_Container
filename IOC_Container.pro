@@ -20,4 +20,5 @@ HEADERS += \
     intelprocessor.h \
     computer.h \
     processor.h \
-    ioccontainer.h
+    ioccontainer.h \
+    amdprocessor.h
