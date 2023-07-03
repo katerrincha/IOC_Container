@@ -1,6 +1,8 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 #include <iostream>
+#include <string>
+using namespace std;
 
 enum ProcessorType
 {
@@ -11,10 +13,54 @@ enum ProcessorType
 class IProcessor
 {
 public:
-     IProcessor() = default;
-     virtual std::string getProcessorInfo() = 0;    // возращает строку с перечислением всех характеристик процессора.
-     virtual void setProcessor(std::string version, ProcessorType type, double speed) = 0; // устанавливает характеристики
-     virtual ~IProcessor() = default;
+     virtual string getProcessor() = 0;
+     virtual void setProcessor(string version, ProcessorType type, double speed) = 0;
+ };
+
+class IntelProcessor: public IProcessor
+{
+     string Version;
+     ProcessorType Type;
+     double Speed;
+
+public:
+
+     IntelProcessor() {}
+     void setProcessor(string version, ProcessorType type, double speed)
+     {
+         Version = version;
+         Type = type;
+         Speed = speed;
+     }
+     string getProcessor()
+     {
+         return "processor Intel, version: " + Version + ", type: " + to_string(Type) + ", speed: " + to_string(Speed);
+     }
+
+     ~IntelProcessor() {}
+ };
+
+class AMDProcessor: public IProcessor
+{
+     string Version;
+     ProcessorType Type;
+     double Speed;
+
+public:
+     AMDProcessor() {}
+     void setProcessor(string version, ProcessorType type, double speed)
+     {
+         Version = version;
+         Type = type;
+         Speed = speed;
+     }
+
+    string getProcessor()
+    {
+        return "processor AMD, version: " + Version + ", type: " + to_string(Type) + ", speed: " + to_string(Speed);
+    }
+
+    ~AMDProcessor() {}
  };
 
 #endif // PROCESSOR_H

@@ -17,8 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp
 
 HEADERS += \
-    intelprocessor.h \
     computer.h \
     processor.h \
-    ioccontainer.h \
-    amdprocessor.h
+    ioccontainer.h

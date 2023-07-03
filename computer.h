@@ -7,17 +7,16 @@ using namespace std;
 
 class Computer
 {
-    std::shared_ptr<IProcessor> processor;
+    IProcessor* processor;
 
 public:
-    Computer(std::shared_ptr<IProcessor> p): processor(p)
-    {} // конструктор инициализирует процессор
+    Computer(IProcessor* p): processor(p) {}
+    // конструктор инициализирует процессор
 
     string getProcessor()
     {
-       return processor->getProcessorInfo();
+       return processor->getProcessor();
     }
-
 };
 
 #endif // COMPUTER_H
